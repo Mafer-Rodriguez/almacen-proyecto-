@@ -1,1 +1,99 @@
-<p>dashboard works!</p>
+<div class="min-h-screen bg-gray-50 flex flex-col">
+
+  <!-- Navbar -->
+  <nav class="shadow-lg p-4 flex justify-between items-center"
+    style="background: linear-gradient(135deg, #1a73e8 0%, #0f9d58 100%);">
+    <div class="flex items-center gap-3">
+      <span class="text-3xl">🏪</span>
+      <h1 class="text-white text-xl font-bold">Sistema de Almacén</h1>
+    </div>
+    <div class="flex items-center gap-4">
+      <span class="text-white font-medium">👋 {{ usuario?.nombre }}</span>
+      <button
+        (click)="cerrarSesion()"
+        class="bg-white text-red-500 font-bold px-4 py-2 rounded-xl hover:shadow-lg transition-all duration-200">
+        Cerrar sesión
+      </button>
+    </div>
+  </nav>
+
+  <!-- Contenido -->
+  <div class="flex-1 max-w-7xl mx-auto w-full p-8">
+
+    <!-- Bienvenida -->
+    <div class="mb-8 rounded-3xl p-8 text-white shadow-xl"
+      style="background: linear-gradient(135deg, #1a73e8 0%, #0f9d58 100%);">
+      <h2 class="text-3xl font-bold mb-2">¡Bienvenido, {{ usuario?.nombre }}! 👋</h2>
+      <p class="text-blue-100">Rol: <span class="font-bold uppercase">{{ usuario?.nombre_rol }}</span></p>
+    </div>
+
+    <!-- Tarjetas en una sola fila -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+
+      <!-- Productos -->
+      <div
+        (click)="irA('/productos')"
+        class="bg-white rounded-3xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer border-b-4"
+        style="border-color: #1a73e8;">
+        <div class="text-5xl mb-4 text-center">📦</div>
+        <h3 class="text-xl font-bold text-gray-800 mb-2 text-center">Productos</h3>
+        <p class="text-gray-500 text-sm text-center">Gestiona los productos del almacén</p>
+        <div class="mt-4 text-white text-sm font-bold px-4 py-2 rounded-xl text-center"
+          style="background: #1a73e8;">
+          Ver productos →
+        </div>
+      </div>
+
+      <!-- Inventario -->
+      <div
+        (click)="irA('/movimientos')"
+        class="bg-white rounded-3xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer border-b-4"
+        style="border-color: #0f9d58;">
+        <div class="text-5xl mb-4 text-center">📊</div>
+        <h3 class="text-xl font-bold text-gray-800 mb-2 text-center">Inventario</h3>
+        <p class="text-gray-500 text-sm text-center">Controla entradas y salidas</p>
+        <div class="mt-4 text-white text-sm font-bold px-4 py-2 rounded-xl text-center"
+          style="background: #0f9d58;">
+          Ver inventario →
+        </div>
+      </div>
+
+      <!-- Solicitudes -->
+      <div
+        (click)="irA('/solicitudes')"
+        class="bg-white rounded-3xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer border-b-4"
+        style="border-color: #ea4335;">
+        <div class="text-5xl mb-4 text-center">📋</div>
+        <h3 class="text-xl font-bold text-gray-800 mb-2 text-center">Solicitudes</h3>
+        <p class="text-gray-500 text-sm text-center">Gestiona solicitudes de materiales</p>
+        <div class="mt-4 text-white text-sm font-bold px-4 py-2 rounded-xl text-center"
+          style="background: #ea4335;">
+          Ver solicitudes →
+        </div>
+      </div>
+
+      <!-- Catálogo -->
+      <div
+        (click)="irA('/catalogo')"
+        class="bg-white rounded-3xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer border-b-4"
+        style="border-color: #f4b400;">
+        <div class="text-5xl mb-4 text-center">🗂️</div>
+        <h3 class="text-xl font-bold text-gray-800 mb-2 text-center">Catálogo</h3>
+        <p class="text-gray-500 text-sm text-center">Consulta materiales disponibles</p>
+        <div class="mt-4 text-white text-sm font-bold px-4 py-2 rounded-xl text-center"
+          style="background: #f4b400;">
+          Ver catálogo →
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Pie de página -->
+  <footer class="p-6 text-center text-white shadow-inner mt-auto"
+    style="background: linear-gradient(135deg, #1a73e8 0%, #0f9d58 100%);">
+    <p class="font-medium">🏪 Sistema de Almacén © 2025</p>
+    <p class="text-sm text-blue-100 mt-1">Todos los derechos reservados</p>
+  </footer>
+
+</div>
