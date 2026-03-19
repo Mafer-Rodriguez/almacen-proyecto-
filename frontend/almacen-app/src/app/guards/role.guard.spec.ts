@@ -1,17 +1,27 @@
-import { TestBed } from '@angular/core/testing';
-import { CanActivateFn } from '@angular/router';
+import { inject } from '@angular/core';
+import { CanActivateFn, Router, ActivatedRouteSnapshot } from '@angular/router';
+import { AuthService } from '../services/auth.service';
+import { map } from 'rxjs/operators';
 
-import { roleGuard } from './role.guard';
+export const roleGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state) => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
 
-describe('roleGuard', () => {
-  const executeGuard: CanActivateFn = (...guardParameters) => 
-      TestBed.runInInjectionContext(() => roleGuard(...guardParameters));
+  const rolesPermitidos = route.data['roles'] as string[];// aqui es donde obtiene los roles permitidos que definenimos en las rutas, por ejemplo empleado, maestro o alumno.
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-  });
+  return authService.usuarioActual$.pipe(//es un observable que emite el usuario actual, es decir, el usuario que está logueado en ese momento.
+    map(usuario => {
+      if (!usuario) {
+        router.navigate(['/login']);
+        return false;
+      }
 
-  it('should be created', () => {
-    expect(executeGuard).toBeTruthy();
-  });
-});
+      if (rolesPermitidos.includes(usuario.nombre_rol!)) {//como lo dice le nombre, verificamos si el rol del usuario actual está incluido en los roles permitidos para esa ruta, si es así, devuelve true y permite el acceso a la ruta, si no, redirige al dashboard y devuelve false.
+        return true;
+      } else {
+        router.navigate(['/dashboard']);
+        return false;
+      }
+    })
+  );
+};
