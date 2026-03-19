@@ -1,1 +1,149 @@
-<p>productos works!</p>
+<div class="min-h-screen bg-gray-50 flex flex-col">
+
+  <!-- Navbar -->
+  <nav class="shadow-lg p-4 flex justify-between items-center"
+    style="background: linear-gradient(135deg, #1a73e8 0%, #0f9d58 100%);">
+    <div class="flex items-center gap-3">
+      <button (click)="regresar()" class="text-white text-2xl hover:opacity-75">←</button>
+      <span class="text-3xl">📦</span>
+      <h1 class="text-white text-xl font-bold">Productos</h1>
+    </div>
+    <button
+      (click)="abrirFormulario()"
+      class="bg-white font-bold px-4 py-2 rounded-xl hover:shadow-lg transition-all duration-200"
+      style="color: #1a73e8;">
+      + Agregar producto
+    </button>
+  </nav>
+
+  <!-- Contenido -->
+  <div class="flex-1 max-w-7xl mx-auto w-full p-8">
+
+    <!-- Tabla de productos -->
+    <div class="bg-white rounded-3xl shadow-lg overflow-hidden">
+      <table class="w-full">
+        <thead>
+          <tr style="background: linear-gradient(135deg, #1a73e8 0%, #0f9d58 100%);">
+            <th class="text-white p-4 text-left">ID</th>
+            <th class="text-white p-4 text-left">Nombre</th>
+            <th class="text-white p-4 text-left">Descripción</th>
+            <th class="text-white p-4 text-left">Cantidad</th>
+            <th class="text-white p-4 text-left">Área</th>
+            <th class="text-white p-4 text-left">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let producto of productos; let i = index"
+            [class]="i % 2 === 0 ? 'bg-white' : 'bg-gray-50'"
+            class="hover:bg-blue-50 transition-colors duration-150">
+            <td class="p-4 text-gray-600">{{ producto.id_productos }}</td>
+            <td class="p-4 font-medium text-gray-800">{{ producto.nombre }}</td>
+            <td class="p-4 text-gray-500">{{ producto.descripcion }}</td>
+            <td class="p-4">
+              <span class="font-bold px-3 py-1 rounded-full text-white"
+                [style.background]="producto.cantidad > 5 ? '#0f9d58' : '#ea4335'">
+                {{ producto.cantidad }}
+              </span>
+            </td>
+            <td class="p-4">
+              <span class="px-3 py-1 rounded-full text-sm font-medium"
+                style="background: #e8f0fe; color: #1a73e8;">
+                {{ producto.area_nombre }}
+              </span>
+            </td>
+            <td class="p-4 flex gap-2">
+              <button
+                (click)="editarProducto(producto)"
+                class="text-white px-3 py-1 rounded-xl text-sm font-bold hover:shadow-md transition-all"
+                style="background: #f4b400;">
+                ✏️ Editar
+              </button>
+              <button
+                (click)="eliminarProducto(producto.id_productos!)"
+                class="text-white px-3 py-1 rounded-xl text-sm font-bold hover:shadow-md transition-all"
+                style="background: #ea4335;">
+                🗑️ Eliminar
+              </button>
+            </td>
+          </tr>
+          <tr *ngIf="productos.length === 0">
+            <td colspan="6" class="p-8 text-center text-gray-400">
+              <div class="text-5xl mb-4">📭</div>
+              <p>No hay productos registrados</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Modal formulario -->
+  <div *ngIf="mostrarFormulario"
+    class="fixed inset-0 flex items-center justify-center z-50"
+    style="background: rgba(0,0,0,0.5);">
+    <div class="bg-white rounded-3xl shadow-2xl p-8 w-full max-w-md mx-4">
+
+      <h2 class="text-2xl font-bold text-gray-800 mb-6">
+        {{ modoEdicion ? '✏️ Editar producto' : '➕ Nuevo producto' }}
+      </h2>
+
+      <div class="flex flex-col gap-4">
+        <div>
+          <label class="text-gray-600 font-medium mb-1 block">Nombre</label>
+          <input
+            [(ngModel)]="productoSeleccionado.nombre"
+            type="text"
+            placeholder="Nombre del producto"
+            class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-400">
+        </div>
+        <div>
+          <label class="text-gray-600 font-medium mb-1 block">Descripción</label>
+          <input
+            [(ngModel)]="productoSeleccionado.descripcion"
+            type="text"
+            placeholder="Descripción del producto"
+            class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-400">
+        </div>
+        <div>
+          <label class="text-gray-600 font-medium mb-1 block">Cantidad</label>
+          <input
+            [(ngModel)]="productoSeleccionado.cantidad"
+            type="number"
+            placeholder="Cantidad"
+            class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-400">
+        </div>
+        <div>
+          <label class="text-gray-600 font-medium mb-1 block">ID Área</label>
+          <input
+            [(ngModel)]="productoSeleccionado.id_area"
+            type="number"
+            placeholder="ID del área"
+            class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-400">
+        </div>
+      </div>
+
+      <div class="flex gap-4 mt-6">
+        <button
+          (click)="mostrarFormulario = false"
+          class="flex-1 border-2 border-gray-200 text-gray-600 font-bold py-3 rounded-xl hover:bg-gray-50 transition-all">
+          Cancelar
+        </button>
+        <button
+          (click)="guardarProducto()"
+          class="flex-1 text-white font-bold py-3 rounded-xl hover:shadow-lg transition-all"
+          style="background: linear-gradient(135deg, #1a73e8 0%, #0f9d58 100%);">
+          {{ modoEdicion ? 'Actualizar' : 'Guardar' }}
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Pie de página -->
+  <footer class="p-6 text-center text-white shadow-inner mt-auto"
+    style="background: linear-gradient(135deg, #1a73e8 0%, #0f9d58 100%);">
+    <p class="font-medium">🏪 Sistema de Almacén © 2025</p>
+    <p class="text-sm text-blue-100 mt-1">Todos los derechos reservados</p>
+  </footer>
+
+</div>
