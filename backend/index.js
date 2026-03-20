@@ -11,8 +11,14 @@ app.use(cors())// Habilitar CORS para permitir solicitudes desde el frontend, en
 app.use(express.json())// permite que la API entinda datos en formato JSON, lo cual es común en las solicitudes HTTP modernas, especialmente cuando se trabaja con APIs RESTful. Esto facilita la comunicación entre el frontend (Angular) y el backend (Node.js) al permitir que ambos intercambien datos de manera eficiente y estructurada.
 
 // Rutas
-const productosRoutes = require('./src/routes/productosRoutes')
-app.use('/api/productos', productosRoutes)//conecta las rutas de productos 
+// Rutas
+const productosRoutes = require('./src/routes/productosRoutes') //importa las rutas relacionadas con productos desde el archivo productosRoutes.js. Estas rutas definirán los endpoints para manejar las operaciones CRUD (Crear, Leer, Actualizar, Eliminar) relacionadas con los productos en la base de datos.
+const movimientosRoutes = require('./src/routes/movimientosRoutes')
+const solicitudesRoutes = require('./src/routes/solicitudesRoutes')
+
+app.use('/api/productos', productosRoutes)//define que todas las rutas relacionadas con productos estarán bajo el prefijo /api/productos. Esto significa que cualquier solicitud a esta ruta será manejada por el controlador de productos.
+app.use('/api/movimientos', movimientosRoutes)
+app.use('/api/solicitudes', solicitudesRoutes)
 
 // Ruta de prueba
 app.get('/', (req, res) => {
@@ -22,3 +28,4 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => { //Arranca el servidar en el puerto especificado en las variables de entorno o el puerto 3000 por defecto
   console.log(`Servidor corriendo en el puerto ${PORT}`)
 })
+
