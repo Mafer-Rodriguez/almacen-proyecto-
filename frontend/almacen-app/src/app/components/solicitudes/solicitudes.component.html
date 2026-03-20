@@ -1,78 +1,76 @@
-<div class="min-h-screen bg-gray-50 flex flex-col">
+<div class="min-h-screen bg-[#070b14] text-white relative overflow-hidden font-sans flex flex-col">
+
+  <!-- Glow background -->
+  <div class="absolute w-[500px] h-[500px] bg-green-500/10 blur-[120px] rounded-full -top-32 -left-32"></div>
+  <div class="absolute w-[400px] h-[400px] bg-blue-500/10 blur-[120px] rounded-full -bottom-32 -right-32"></div>
 
   <!-- Navbar -->
-  <nav class="shadow-lg p-4 flex justify-between items-center"
-    style="background: linear-gradient(135deg, #ea4335 0%, #ff6d00 100%);">
+  <nav class="relative z-10 flex justify-between items-center px-8 py-5 border-b border-white/10 backdrop-blur-xl bg-white/5">
     <div class="flex items-center gap-3">
-      <button (click)="regresar()" class="text-white text-2xl hover:opacity-75">←</button>
-      <span class="text-3xl">📋</span>
-      <h1 class="text-white text-xl font-bold">Solicitudes</h1>
+      <button (click)="regresar()" class="text-gray-400 hover:text-white transition text-lg">←</button>
+      <span class="text-xl font-semibold tracking-tight">Solicitudes</span>
     </div>
   </nav>
 
   <!-- Contenido -->
-  <div class="flex-1 max-w-7xl mx-auto w-full p-8">
+  <div class="relative z-10 flex-1 max-w-7xl mx-auto w-full px-8 py-10">
 
-    <!-- Título -->
-    <div class="mb-8 rounded-3xl p-6 text-white shadow-xl"
-      style="background: linear-gradient(135deg, #ea4335 0%, #ff6d00 100%);">
-      <h2 class="text-2xl font-bold mb-1">Gestión de Solicitudes 📋</h2>
-      <p class="text-red-100">Aprueba o rechaza las solicitudes de materiales</p>
+    <div class="mb-8">
+      <h1 class="text-2xl font-semibold mb-1">Gestión de Solicitudes</h1>
+      <p class="text-gray-400 text-sm">Aprueba o rechaza las solicitudes de materiales</p>
     </div>
 
     <!-- Tabla -->
-    <div class="bg-white rounded-3xl shadow-lg overflow-hidden">
+    <div class="rounded-2xl border border-white/10 overflow-hidden backdrop-blur-xl bg-white/5">
       <table class="w-full">
         <thead>
-          <tr style="background: linear-gradient(135deg, #ea4335 0%, #ff6d00 100%);">
-            <th class="text-white p-4 text-left">ID</th>
-            <th class="text-white p-4 text-left">Usuario</th>
-            <th class="text-white p-4 text-left">Producto</th>
-            <th class="text-white p-4 text-left">Cantidad</th>
-            <th class="text-white p-4 text-left">Estado</th>
-            <th class="text-white p-4 text-left">Fecha</th>
-            <th class="text-white p-4 text-left">Acciones</th>
+          <tr class="border-b border-white/10">
+            <th class="text-left p-4 text-xs text-gray-400 font-medium uppercase tracking-wider">ID</th>
+            <th class="text-left p-4 text-xs text-gray-400 font-medium uppercase tracking-wider">Usuario</th>
+            <th class="text-left p-4 text-xs text-gray-400 font-medium uppercase tracking-wider">Producto</th>
+            <th class="text-left p-4 text-xs text-gray-400 font-medium uppercase tracking-wider">Cantidad</th>
+            <th class="text-left p-4 text-xs text-gray-400 font-medium uppercase tracking-wider">Estado</th>
+            <th class="text-left p-4 text-xs text-gray-400 font-medium uppercase tracking-wider">Fecha</th>
+            <th class="text-left p-4 text-xs text-gray-400 font-medium uppercase tracking-wider">Acciones</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let solicitud of solicitudes; let i = index"
-            [class]="i % 2 === 0 ? 'bg-white' : 'bg-gray-50'"
-            class="hover:bg-red-50 transition-colors duration-150">
-            <td class="p-4 text-gray-600">{{ solicitud.id_solicitud }}</td>
-            <td class="p-4 font-medium text-gray-800">{{ solicitud.nombre_usuario }}</td>
-            <td class="p-4 text-gray-600">{{ solicitud.nombre_producto }}</td>
-            <td class="p-4 text-gray-600">{{ solicitud.cantidad }}</td>
+          <tr *ngFor="let solicitud of solicitudes"
+            class="border-b border-white/5 hover:bg-white/5 transition-all duration-150">
+            <td class="p-4 text-gray-400 text-sm">{{ solicitud.id_solicitud }}</td>
+            <td class="p-4 text-sm font-medium">{{ solicitud.nombre_usuario }}</td>
+            <td class="p-4 text-gray-400 text-sm">{{ solicitud.nombre_producto }}</td>
+            <td class="p-4 text-gray-400 text-sm">{{ solicitud.cantidad }}</td>
             <td class="p-4">
-              <span class="text-white text-xs font-bold px-3 py-1 rounded-full"
-                [style.background]="getColorEstado(solicitud.estado)">
+              <span class="text-xs font-bold px-3 py-1 rounded-full"
+                [style.background]="solicitud.estado === 'aprobada' ? 'rgba(16,185,129,0.15)' : solicitud.estado === 'rechazada' ? 'rgba(239,68,68,0.15)' : 'rgba(234,179,8,0.15)'"
+                [style.color]="solicitud.estado === 'aprobada' ? '#10b981' : solicitud.estado === 'rechazada' ? '#ef4444' : '#eab308'"
+                [style.border]="solicitud.estado === 'aprobada' ? '1px solid rgba(16,185,129,0.3)' : solicitud.estado === 'rechazada' ? '1px solid rgba(239,68,68,0.3)' : '1px solid rgba(234,179,8,0.3)'">
                 {{ solicitud.estado }}
               </span>
             </td>
-            <td class="p-4 text-gray-500 text-sm">{{ solicitud.fecha | date:'dd/MM/yyyy' }}</td>
+            <td class="p-4 text-gray-400 text-sm">{{ solicitud.fecha | date:'dd/MM/yyyy' }}</td>
             <td class="p-4 flex gap-2">
               <button
                 *ngIf="solicitud.estado === 'pendiente'"
                 (click)="aprobarSolicitud(solicitud.id_solicitud!)"
-                class="text-white px-3 py-1 rounded-xl text-sm font-bold hover:shadow-md transition-all"
-                style="background: #0f9d58;">
+                class="px-3 py-1 text-xs rounded-lg border border-green-400/30 text-green-400 hover:bg-green-500/20 transition-all">
                 ✅ Aprobar
               </button>
               <button
                 *ngIf="solicitud.estado === 'pendiente'"
                 (click)="rechazarSolicitud(solicitud.id_solicitud!)"
-                class="text-white px-3 py-1 rounded-xl text-sm font-bold hover:shadow-md transition-all"
-                style="background: #ea4335;">
+                class="px-3 py-1 text-xs rounded-lg border border-red-400/30 text-red-400 hover:bg-red-500/20 transition-all">
                 ❌ Rechazar
               </button>
-              <span *ngIf="solicitud.estado !== 'pendiente'" class="text-gray-400 text-sm">
+              <span *ngIf="solicitud.estado !== 'pendiente'" class="text-gray-500 text-xs">
                 Sin acciones
               </span>
             </td>
           </tr>
           <tr *ngIf="solicitudes.length === 0">
-            <td colspan="7" class="p-8 text-center text-gray-400">
-              <div class="text-5xl mb-4">📭</div>
-              <p>No hay solicitudes registradas</p>
+            <td colspan="7" class="p-16 text-center text-gray-500">
+              <p class="text-sm">No hay solicitudes registradas</p>
             </td>
           </tr>
         </tbody>
@@ -80,11 +78,9 @@
     </div>
   </div>
 
-  <!-- Pie de página -->
-  <footer class="p-6 text-center text-white shadow-inner mt-auto"
-    style="background: linear-gradient(135deg, #ea4335 0%, #ff6d00 100%);">
-    <p class="font-medium">🏪 Sistema de Almacén © 2025</p>
-    <p class="text-sm text-red-100 mt-1">Todos los derechos reservados</p>
+  <!-- Footer -->
+  <footer class="relative z-10 text-center py-6 border-t border-white/10">
+    <p class="text-xs text-gray-500">© 2025 Sistema de Almacén</p>
   </footer>
 
 </div>

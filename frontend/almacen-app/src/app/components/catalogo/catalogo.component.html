@@ -1,115 +1,106 @@
-<div class="min-h-screen bg-gray-50 flex flex-col">
+<div class="min-h-screen bg-[#070b14] text-white relative overflow-hidden font-sans flex flex-col">
+
+  <!-- Glow background -->
+  <div class="absolute w-[500px] h-[500px] bg-purple-500/10 blur-[120px] rounded-full -top-32 -left-32"></div>
+  <div class="absolute w-[400px] h-[400px] bg-orange-500/10 blur-[120px] rounded-full -bottom-32 -right-32"></div>
 
   <!-- Navbar -->
-  <nav class="shadow-lg p-4 flex justify-between items-center"
-    style="background: linear-gradient(135deg, #f4b400 0%, #ea4335 100%);">
+  <nav class="relative z-10 flex justify-between items-center px-8 py-5 border-b border-white/10 backdrop-blur-xl bg-white/5">
     <div class="flex items-center gap-3">
-      <button (click)="regresar()" class="text-white text-2xl hover:opacity-75">←</button>
-      <span class="text-3xl">🗂️</span>
-      <h1 class="text-white text-xl font-bold">Catálogo de Materiales</h1>
+      <button (click)="regresar()" class="text-gray-400 hover:text-white transition text-lg">←</button>
+      <span class="text-xl font-semibold tracking-tight"> Catálogo</span>
     </div>
   </nav>
 
   <!-- Contenido -->
-  <div class="flex-1 max-w-7xl mx-auto w-full p-8">
+  <div class="relative z-10 flex-1 max-w-7xl mx-auto w-full px-8 py-10">
 
-    <!-- Título -->
-    <div class="mb-8 rounded-3xl p-6 text-white shadow-xl"
-      style="background: linear-gradient(135deg, #f4b400 0%, #ea4335 100%);">
-      <h2 class="text-2xl font-bold mb-1">Materiales disponibles 📦</h2>
-      <p class="text-yellow-100">Consulta los materiales y realiza solicitudes</p>
+    <div class="mb-8">
+      <h1 class="text-2xl font-semibold mb-1">Catálogo de Materiales</h1>
+      <p class="text-gray-400 text-sm">Consulta los materiales disponibles y realiza solicitudes</p>
     </div>
 
-    <!-- Tarjetas de productos -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- Tarjetas -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       <div *ngFor="let producto of productos"
-        class="bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden">
+        class="p-6 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-purple-400/30 hover:bg-white/10 transition-all duration-300">
 
-        <!-- Header de tarjeta -->
-        <div class="p-4 text-white text-center"
-          style="background: linear-gradient(135deg, #f4b400 0%, #ea4335 100%);">
-          <div class="text-4xl mb-2">📦</div>
-          <h3 class="font-bold text-lg">{{ producto.nombre }}</h3>
+        <div class="flex justify-between items-start mb-4">
+          <div>
+            <h3 class="font-semibold mb-1">{{ producto.nombre }}</h3>
+            <p class="text-gray-400 text-xs">{{ producto.descripcion }}</p>
+          </div>
+          <span class="text-xs px-2 py-1 rounded-full border border-blue-400/30 text-blue-300">
+            {{ producto.area_nombre }}
+          </span>
         </div>
 
-        <!-- Contenido de tarjeta -->
-        <div class="p-5">
-          <p class="text-gray-500 text-sm mb-4">{{ producto.descripcion }}</p>
-
-          <div class="flex justify-between items-center mb-4">
-            <span class="text-gray-600 font-medium">Disponible:</span>
-            <span class="font-bold px-3 py-1 rounded-full text-white text-sm"
-              [style.background]="producto.cantidad > 5 ? '#0f9d58' : '#ea4335'">
-              {{ producto.cantidad }} piezas
-            </span>
-          </div>
-
-          <div class="flex justify-between items-center mb-5">
-            <span class="text-gray-600 font-medium">Área:</span>
-            <span class="px-3 py-1 rounded-full text-sm font-medium"
-              style="background: #fef7e0; color: #f4b400;">
-              {{ producto.area_nombre }}
-            </span>
-          </div>
-
-          <button
-            (click)="abrirSolicitud(producto)"
-            [disabled]="producto.cantidad === 0"
-            class="w-full text-white font-bold py-3 rounded-xl transition-all duration-200 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
-            style="background: linear-gradient(135deg, #f4b400 0%, #ea4335 100%);">
-            {{ producto.cantidad === 0 ? '❌ Sin stock' : '📋 Solicitar' }}
-          </button>
+        <div class="flex justify-between items-center mb-5">
+          <span class="text-gray-400 text-xs">Disponible</span>
+          <span class="text-xs font-bold px-3 py-1 rounded-full"
+            [style.background]="producto.cantidad > 5 ? 'rgba(16,185,129,0.15)' : 'rgba(239,68,68,0.15)'"
+            [style.color]="producto.cantidad > 5 ? '#10b981' : '#ef4444'"
+            [style.border]="producto.cantidad > 5 ? '1px solid rgba(16,185,129,0.3)' : '1px solid rgba(239,68,68,0.3)'">
+            {{ producto.cantidad }} piezas
+          </span>
         </div>
+
+        <button
+          (click)="abrirSolicitud(producto)"
+          [disabled]="producto.cantidad === 0"
+          class="w-full py-2 text-sm rounded-lg border transition-all duration-200 font-medium"
+          [class]="producto.cantidad === 0 ?
+            'border-white/10 text-gray-500 cursor-not-allowed' :
+            'border-purple-400/40 text-purple-300 hover:bg-purple-500/20 cursor-pointer'">
+          {{ producto.cantidad === 0 ? 'Sin stock' : '📋 Solicitar material' }}
+        </button>
       </div>
 
       <!-- Sin productos -->
       <div *ngIf="productos.length === 0" class="col-span-3 text-center py-16">
-        <div class="text-6xl mb-4">📭</div>
-        <p class="text-gray-400 text-lg">No hay materiales disponibles</p>
+        <p class="text-gray-500 text-sm">No hay materiales disponibles</p>
       </div>
     </div>
   </div>
 
   <!-- Modal solicitud -->
   <div *ngIf="mostrarFormulario"
-    class="fixed inset-0 flex items-center justify-center z-50"
-    style="background: rgba(0,0,0,0.5);">
-    <div class="bg-white rounded-3xl shadow-2xl p-8 w-full max-w-md mx-4">
+    class="fixed inset-0 flex items-center justify-center z-50 bg-black/60 backdrop-blur-sm">
+    <div class="w-full max-w-md mx-4 p-8 rounded-2xl bg-[#0d1117] border border-white/10 shadow-2xl">
 
-      <h2 class="text-2xl font-bold text-gray-800 mb-2">📋 Solicitar material</h2>
-      <p class="text-gray-500 mb-6">{{ productoSeleccionado?.nombre }}</p>
+      <h2 class="text-xl font-semibold mb-1">📋 Solicitar material</h2>
+      <p class="text-gray-400 text-sm mb-6">{{ productoSeleccionado?.nombre }}</p>
 
       <div class="flex flex-col gap-4">
         <div>
-          <label class="text-gray-600 font-medium mb-1 block">Cantidad</label>
+          <label class="text-xs text-gray-400 mb-1 block uppercase tracking-wider">Cantidad</label>
           <input
             [(ngModel)]="cantidadSolicitud"
             type="number"
             min="1"
             [max]="productoSeleccionado?.cantidad ?? 0"
-            class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:border-yellow-400">
+            class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-purple-400/50 transition">
         </div>
         <div>
-          <label class="text-gray-600 font-medium mb-1 block">Observación (opcional)</label>
+          <label class="text-xs text-gray-400 mb-1 block uppercase tracking-wider">Observación (opcional)</label>
           <textarea
             [(ngModel)]="observacion"
             placeholder="¿Para qué necesitas este material?"
             rows="3"
-            class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:border-yellow-400">
+            class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-purple-400/50 transition resize-none">
           </textarea>
         </div>
       </div>
 
-      <div class="flex gap-4 mt-6">
+      <div class="flex gap-3 mt-6">
         <button
           (click)="mostrarFormulario = false"
-          class="flex-1 border-2 border-gray-200 text-gray-600 font-bold py-3 rounded-xl hover:bg-gray-50 transition-all">
+          class="flex-1 py-3 text-sm rounded-lg border border-white/10 text-gray-400 hover:bg-white/5 transition-all">
           Cancelar
         </button>
         <button
           (click)="enviarSolicitud()"
-          class="flex-1 text-white font-bold py-3 rounded-xl hover:shadow-lg transition-all"
-          style="background: linear-gradient(135deg, #f4b400 0%, #ea4335 100%);">
+          class="flex-1 py-3 text-sm rounded-lg bg-purple-500/20 border border-purple-400/40 text-purple-300 hover:bg-purple-500/30 transition-all font-medium">
           Enviar solicitud
         </button>
       </div>
@@ -117,11 +108,9 @@
     </div>
   </div>
 
-  <!-- Pie de página -->
-  <footer class="p-6 text-center text-white shadow-inner mt-auto"
-    style="background: linear-gradient(135deg, #f4b400 0%, #ea4335 100%);">
-    <p class="font-medium">🏪 Sistema de Almacén © 2025</p>
-    <p class="text-sm text-yellow-100 mt-1">Todos los derechos reservados</p>
+  <!-- Footer -->
+  <footer class="relative z-10 text-center py-6 border-t border-white/10">
+    <p class="text-xs text-gray-500">© 2025 Sistema de Almacén</p>
   </footer>
 
 </div>

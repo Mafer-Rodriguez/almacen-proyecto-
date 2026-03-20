@@ -1,104 +1,70 @@
-<div class="min-h-screen flex">
+<div class="min-h-screen flex items-center justify-center bg-[#070b14] text-white relative overflow-hidden font-sans">
 
-  <!-- Lado izquierdo - decorativo -->
-  <div class="hidden lg:flex w-1/2 flex-col items-center justify-center p-12"
-    style="background: linear-gradient(135deg, #1a73e8 0%, #0f9d58 50%, #f4b400 100%);">
-    <div class="text-center">
-      <div class="text-9xl mb-6 drop-shadow-lg">🏪</div>
-      <h2 class="text-4xl font-bold text-white mb-4 drop-shadow">Sistema de Almacén</h2>
-      <p class="text-white text-opacity-90 text-lg mb-10">Gestiona tu inventario de forma fácil y rápida</p>
+  <!-- Glow background -->
+  <div class="absolute w-[500px] h-[500px] bg-blue-500/10 blur-[120px] rounded-full -top-32 -left-32"></div>
+  <div class="absolute w-[400px] h-[400px] bg-purple-500/10 blur-[120px] rounded-full -bottom-32 -right-32"></div>
 
-      <!-- Tarjetitas decorativas -->
-      <div class="grid grid-cols-2 gap-4">
-        <div class="rounded-2xl p-4 text-white font-medium shadow-lg" style="background: rgba(255,255,255,0.2);">
-          <div class="text-4xl mb-2">📦</div>
-          <p>Productos</p>
-        </div>
-        <div class="rounded-2xl p-4 text-white font-medium shadow-lg" style="background: rgba(255,255,255,0.2);">
-          <div class="text-4xl mb-2">📊</div>
-          <p>Inventario</p>
-        </div>
-        <div class="rounded-2xl p-4 text-white font-medium shadow-lg" style="background: rgba(255,255,255,0.2);">
-          <div class="text-4xl mb-2">👥</div>
-          <p>Usuarios</p>
-        </div>
-        <div class="rounded-2xl p-4 text-white font-medium shadow-lg" style="background: rgba(255,255,255,0.2);">
-          <div class="text-4xl mb-2">📋</div>
-          <p>Solicitudes</p>
-        </div>
-      </div>
-    </div>
-  </div>
+  <!-- Card -->
+  <div class="relative z-10 w-full max-w-md p-8 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl">
 
-  <!-- Lado derecho - formulario -->
-  <div class="w-full lg:w-1/2 flex items-center justify-center p-8"
-    style="background: linear-gradient(180deg, #f8faff 0%, #fff3e0 100%);">
-    <div class="w-full max-w-md">
-
-      <!-- Logo móvil -->
-      <div class="lg:hidden text-center mb-8">
-        <div class="text-7xl mb-4">🏪</div>
-        <h1 class="text-3xl font-bold" style="color: #1a73e8;">Sistema de Almacén</h1>
-      </div>
-
-      <!-- Tarjeta -->
-      <div class="bg-white rounded-3xl shadow-2xl p-8 border-t-8" style="border-color: #1a73e8;">
-
-        <div class="mb-6">
-          <h1 class="text-3xl font-bold text-gray-800">¡Bienvenido! 👋</h1>
-          <p class="text-gray-500 mt-2">Inicia sesión para acceder al sistema</p>
-        </div>
-
-        <!-- Roles -->
-        <div class="flex gap-2 flex-wrap mb-6">
-          <span class="text-white text-xs font-bold px-4 py-2 rounded-full shadow" style="background: #1a73e8;">
-            👷 Empleado
-          </span>
-          <span class="text-white text-xs font-bold px-4 py-2 rounded-full shadow" style="background: #0f9d58;">
-            👨‍🏫 Maestro
-          </span>
-          <span class="text-white text-xs font-bold px-4 py-2 rounded-full shadow" style="background: #ea4335;">
-            🎓 Alumno
-          </span>
-        </div>
-
-        <!-- Botón Google -->
-        <button
-          (click)="loginConGoogle()"
-          class="w-full flex items-center justify-center gap-3 bg-white border-2 rounded-2xl py-4 px-6 hover:shadow-xl transition-all duration-300 cursor-pointer mb-6 font-bold text-gray-700"
-          style="border-color: #1a73e8;">
-          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" class="w-6 h-6">
-          Continuar con Google
-        </button>
-
-        <!-- Divisor -->
-        <div class="flex items-center gap-3 my-4">
-          <div class="flex-1 h-px bg-gray-200"></div>
-          <span class="text-gray-400 text-sm">acceso seguro 🔒</span>
-          <div class="flex-1 h-px bg-gray-200"></div>
-        </div>
-
-        <!-- Info colores -->
-        <div class="grid grid-cols-3 gap-2 mt-4">
-          <div class="rounded-xl p-3 text-center" style="background: #e8f0fe;">
-            <p class="text-xs font-bold" style="color: #1a73e8;">📦 Gestión</p>
-          </div>
-          <div class="rounded-xl p-3 text-center" style="background: #e6f4ea;">
-            <p class="text-xs font-bold" style="color: #0f9d58;">✅ Control</p>
-          </div>
-          <div class="rounded-xl p-3 text-center" style="background: #fef7e0;">
-            <p class="text-xs font-bold" style="color: #f4b400;">⚡ Rápido</p>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Footer -->
-      <p class="text-center text-gray-400 text-sm mt-6">
-        Sistema de Almacén © 2025
+    <!-- Brand -->
+    <div class="mb-8">
+      <h1 class="text-xl font-semibold tracking-tight">
+        Sistema de Almacén
+      </h1>
+      <p class="text-sm text-gray-400">
+        Gestión inteligente de inventario
       </p>
-
     </div>
+
+    <!-- Title -->
+    <div class="mb-8">
+      <h2 class="text-3xl font-semibold">
+        Iniciar sesión
+      </h2>
+      <p class="text-gray-400 text-sm mt-1">
+        Accede con tu cuenta institucional
+      </p>
+    </div>
+
+    <!-- Google Button -->
+    <button
+      (click)="loginConGoogle()"
+      class="w-full flex items-center justify-center gap-3 py-3 rounded-lg 
+             bg-white text-black font-medium 
+             hover:bg-gray-200 
+             transition-all duration-200
+             hover:shadow-[0_0_20px_rgba(59,130,246,0.25)]"
+    >
+      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-5 h-5">
+      Continuar con Google
+    </button>
+
+    <!-- Divider -->
+    <div class="flex items-center my-6">
+      <div class="flex-1 h-px bg-white/10"></div>
+      <span class="px-3 text-xs text-gray-500">Acceso seguro</span>
+      <div class="flex-1 h-px bg-white/10"></div>
+    </div>
+
+    <!-- Roles -->
+    <div class="flex gap-2 flex-wrap">
+      <span class="px-3 py-1 text-xs rounded-full border border-white/10 text-gray-300 hover:border-blue-400/40 hover:text-blue-300 transition">
+        Empleado
+      </span>
+      <span class="px-3 py-1 text-xs rounded-full border border-white/10 text-gray-300 hover:border-purple-400/40 hover:text-purple-300 transition">
+        Maestro
+      </span>
+      <span class="px-3 py-1 text-xs rounded-full border border-white/10 text-gray-300 hover:border-blue-400/40 hover:text-blue-300 transition">
+        Alumno
+      </span>
+    </div>
+
   </div>
+
+  <!-- Footer -->
+  <p class="absolute bottom-6 text-xs text-gray-500">
+    © 2025 Sistema de Almacén
+  </p>
 
 </div>
