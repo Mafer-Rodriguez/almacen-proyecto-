@@ -1,1 +1,161 @@
-<p>movimientos works!</p>
+<div class="min-h-screen bg-gray-50 flex flex-col">
+
+  <!-- Navbar -->
+  <nav class="shadow-lg p-4 flex justify-between items-center"
+    style="background: linear-gradient(135deg, #0f9d58 0%, #1a73e8 100%);">
+    <div class="flex items-center gap-3">
+      <button (click)="regresar()" class="text-white text-2xl hover:opacity-75">←</button>
+      <span class="text-3xl">📊</span>
+      <h1 class="text-white text-xl font-bold">Movimientos de Inventario</h1>
+    </div>
+    <button
+      (click)="abrirFormulario()"
+      class="bg-white font-bold px-4 py-2 rounded-xl hover:shadow-lg transition-all duration-200"
+      style="color: #0f9d58;">
+      + Nuevo movimiento
+    </button>
+  </nav>
+
+  <!-- Contenido -->
+  <div class="flex-1 max-w-7xl mx-auto w-full p-8">
+
+    <!-- Título -->
+    <div class="mb-8 rounded-3xl p-6 text-white shadow-xl"
+      style="background: linear-gradient(135deg, #0f9d58 0%, #1a73e8 100%);">
+      <h2 class="text-2xl font-bold mb-1">Control de Inventario 📊</h2>
+      <p class="text-green-100">Registra entradas y salidas de materiales</p>
+    </div>
+
+    <!-- Tabla -->
+    <div class="bg-white rounded-3xl shadow-lg overflow-hidden">
+      <table class="w-full">
+        <thead>
+          <tr style="background: linear-gradient(135deg, #0f9d58 0%, #1a73e8 100%);">
+            <th class="text-white p-4 text-left">ID</th>
+            <th class="text-white p-4 text-left">Tipo</th>
+            <th class="text-white p-4 text-left">Usuario</th>
+            <th class="text-white p-4 text-left">Observación</th>
+            <th class="text-white p-4 text-left">Fecha</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let movimiento of movimientos; let i = index"
+            [class]="i % 2 === 0 ? 'bg-white' : 'bg-gray-50'"
+            class="hover:bg-green-50 transition-colors duration-150">
+            <td class="p-4 text-gray-600">{{ movimiento.id_movimiento }}</td>
+            <td class="p-4">
+              <span class="text-white text-xs font-bold px-3 py-1 rounded-full"
+                [style.background]="movimiento.tipo === 'entrada' ? '#0f9d58' : '#ea4335'">
+                {{ movimiento.tipo === 'entrada' ? '⬆️ Entrada' : '⬇️ Salida' }}
+              </span>
+            </td>
+            <td class="p-4 font-medium text-gray-800">{{ movimiento.nombre_usuario }}</td>
+            <td class="p-4 text-gray-500">{{ movimiento.observacion }}</td>
+            <td class="p-4 text-gray-500 text-sm">{{ movimiento.fecha | date:'dd/MM/yyyy' }}</td>
+          </tr>
+          <tr *ngIf="movimientos.length === 0">
+            <td colspan="5" class="p-8 text-center text-gray-400">
+              <div class="text-5xl mb-4">📭</div>
+              <p>No hay movimientos registrados</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div *ngIf="mostrarFormulario"
+    class="fixed inset-0 flex items-center justify-center z-50"
+    style="background: rgba(0,0,0,0.5);">
+    <div class="bg-white rounded-3xl shadow-2xl p-8 w-full max-w-lg mx-4 max-h-screen overflow-y-auto">
+
+      <h2 class="text-2xl font-bold text-gray-800 mb-6">➕ Nuevo movimiento</h2>
+
+      <!-- Tipo de movimiento -->
+      <div class="mb-4">
+        <label class="text-gray-600 font-medium mb-1 block">Tipo</label>
+        <select
+          [(ngModel)]="nuevoMovimiento.tipo"
+          class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:border-green-400">
+          <option value="entrada">⬆️ Entrada</option>
+          <option value="salida">⬇️ Salida</option>
+        </select>
+      </div>
+
+      <!-- Observación -->
+      <div class="mb-4">
+        <label class="text-gray-600 font-medium mb-1 block">Observación</label>
+        <input
+          [(ngModel)]="nuevoMovimiento.observacion"
+          type="text"
+          placeholder="Motivo del movimiento"
+          class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:border-green-400">
+      </div>
+
+      <!-- Agregar productos -->
+      <div class="mb-4 p-4 rounded-2xl" style="background: #e6f4ea;">
+        <h3 class="font-bold text-gray-700 mb-3">Agregar productos</h3>
+        <div class="flex gap-2 mb-2">
+          <select
+            [(ngModel)]="nuevoDetalle.id_producto"
+            class="flex-1 border-2 border-gray-200 rounded-xl px-3 py-2 focus:outline-none focus:border-green-400">
+            <option value="0">Selecciona producto</option>
+            <option *ngFor="let producto of productos" [value]="producto.id_productos">
+              {{ producto.nombre }}
+            </option>
+          </select>
+          <input
+            [(ngModel)]="nuevoDetalle.cantidad"
+            type="number"
+            min="1"
+            placeholder="Cant."
+            class="w-24 border-2 border-gray-200 rounded-xl px-3 py-2 focus:outline-none focus:border-green-400">
+          <button
+            (click)="agregarDetalle()"
+            class="text-white font-bold px-4 py-2 rounded-xl"
+            style="background: #0f9d58;">
+            +
+          </button>
+        </div>
+
+        <!-- Lista de detalles -->
+        <div *ngFor="let detalle of nuevoMovimiento.detalles; let i = index"
+          class="flex justify-between items-center bg-white rounded-xl p-3 mb-2">
+          <span class="text-gray-700 font-medium">{{ detalle.nombre_producto }}</span>
+          <div class="flex items-center gap-3">
+            <span class="font-bold" style="color: #0f9d58;">x{{ detalle.cantidad }}</span>
+            <button (click)="eliminarDetalle(i)" class="text-red-400 hover:text-red-600">✕</button>
+          </div>
+        </div>
+
+        <p *ngIf="nuevoMovimiento.detalles!.length === 0" class="text-gray-400 text-sm text-center">
+          No hay productos agregados
+        </p>
+      </div>
+
+      <div class="flex gap-4 mt-6">
+        <button
+          (click)="mostrarFormulario = false"
+          class="flex-1 border-2 border-gray-200 text-gray-600 font-bold py-3 rounded-xl hover:bg-gray-50 transition-all">
+          Cancelar
+        </button>
+        <button
+          (click)="guardarMovimiento()"
+          class="flex-1 text-white font-bold py-3 rounded-xl hover:shadow-lg transition-all"
+          style="background: linear-gradient(135deg, #0f9d58 0%, #1a73e8 100%);">
+          Guardar movimiento
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Pie de página -->
+  <footer class="p-6 text-center text-white shadow-inner mt-auto"
+    style="background: linear-gradient(135deg, #0f9d58 0%, #1a73e8 100%);">
+    <p class="font-medium">🏪 Sistema de Almacén © 2025</p>
+    <p class="text-sm text-green-100 mt-1">Todos los derechos reservados</p>
+  </footer>
+
+</div>

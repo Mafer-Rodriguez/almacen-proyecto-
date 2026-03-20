@@ -1,1 +1,90 @@
-<p>solicitudes works!</p>
+<div class="min-h-screen bg-gray-50 flex flex-col">
+
+  <!-- Navbar -->
+  <nav class="shadow-lg p-4 flex justify-between items-center"
+    style="background: linear-gradient(135deg, #ea4335 0%, #ff6d00 100%);">
+    <div class="flex items-center gap-3">
+      <button (click)="regresar()" class="text-white text-2xl hover:opacity-75">←</button>
+      <span class="text-3xl">📋</span>
+      <h1 class="text-white text-xl font-bold">Solicitudes</h1>
+    </div>
+  </nav>
+
+  <!-- Contenido -->
+  <div class="flex-1 max-w-7xl mx-auto w-full p-8">
+
+    <!-- Título -->
+    <div class="mb-8 rounded-3xl p-6 text-white shadow-xl"
+      style="background: linear-gradient(135deg, #ea4335 0%, #ff6d00 100%);">
+      <h2 class="text-2xl font-bold mb-1">Gestión de Solicitudes 📋</h2>
+      <p class="text-red-100">Aprueba o rechaza las solicitudes de materiales</p>
+    </div>
+
+    <!-- Tabla -->
+    <div class="bg-white rounded-3xl shadow-lg overflow-hidden">
+      <table class="w-full">
+        <thead>
+          <tr style="background: linear-gradient(135deg, #ea4335 0%, #ff6d00 100%);">
+            <th class="text-white p-4 text-left">ID</th>
+            <th class="text-white p-4 text-left">Usuario</th>
+            <th class="text-white p-4 text-left">Producto</th>
+            <th class="text-white p-4 text-left">Cantidad</th>
+            <th class="text-white p-4 text-left">Estado</th>
+            <th class="text-white p-4 text-left">Fecha</th>
+            <th class="text-white p-4 text-left">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let solicitud of solicitudes; let i = index"
+            [class]="i % 2 === 0 ? 'bg-white' : 'bg-gray-50'"
+            class="hover:bg-red-50 transition-colors duration-150">
+            <td class="p-4 text-gray-600">{{ solicitud.id_solicitud }}</td>
+            <td class="p-4 font-medium text-gray-800">{{ solicitud.nombre_usuario }}</td>
+            <td class="p-4 text-gray-600">{{ solicitud.nombre_producto }}</td>
+            <td class="p-4 text-gray-600">{{ solicitud.cantidad }}</td>
+            <td class="p-4">
+              <span class="text-white text-xs font-bold px-3 py-1 rounded-full"
+                [style.background]="getColorEstado(solicitud.estado)">
+                {{ solicitud.estado }}
+              </span>
+            </td>
+            <td class="p-4 text-gray-500 text-sm">{{ solicitud.fecha | date:'dd/MM/yyyy' }}</td>
+            <td class="p-4 flex gap-2">
+              <button
+                *ngIf="solicitud.estado === 'pendiente'"
+                (click)="aprobarSolicitud(solicitud.id_solicitud!)"
+                class="text-white px-3 py-1 rounded-xl text-sm font-bold hover:shadow-md transition-all"
+                style="background: #0f9d58;">
+                ✅ Aprobar
+              </button>
+              <button
+                *ngIf="solicitud.estado === 'pendiente'"
+                (click)="rechazarSolicitud(solicitud.id_solicitud!)"
+                class="text-white px-3 py-1 rounded-xl text-sm font-bold hover:shadow-md transition-all"
+                style="background: #ea4335;">
+                ❌ Rechazar
+              </button>
+              <span *ngIf="solicitud.estado !== 'pendiente'" class="text-gray-400 text-sm">
+                Sin acciones
+              </span>
+            </td>
+          </tr>
+          <tr *ngIf="solicitudes.length === 0">
+            <td colspan="7" class="p-8 text-center text-gray-400">
+              <div class="text-5xl mb-4">📭</div>
+              <p>No hay solicitudes registradas</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Pie de página -->
+  <footer class="p-6 text-center text-white shadow-inner mt-auto"
+    style="background: linear-gradient(135deg, #ea4335 0%, #ff6d00 100%);">
+    <p class="font-medium">🏪 Sistema de Almacén © 2025</p>
+    <p class="text-sm text-red-100 mt-1">Todos los derechos reservados</p>
+  </footer>
+
+</div>
