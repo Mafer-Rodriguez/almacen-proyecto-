@@ -14,7 +14,8 @@ export const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
-    canActivate: [authGuard]// protege la ruta, solo usuarios logueados pueden entrar. 
+    canActivate: [authGuard, roleGuard],// protege la ruta, solo usuarios logueados pueden entrar.
+    data: { roles: ['empleado'] }// protege la ruta, solo usuarios logueados pueden entrar. 
   },
   {
     path: 'productos',
