@@ -7,6 +7,7 @@ import { MovimientosComponent } from './components/movimientos/movimientos.compo
 import { SolicitudesComponent } from './components/solicitudes/solicitudes.component';
 import { authGuard } from './guards/auth.guard';
 import { roleGuard } from './guards/role.guard';
+import { UsuariosComponent } from './components/usuarios/usuarios.component';
 
 export const routes: Routes = [
       { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -40,6 +41,12 @@ export const routes: Routes = [
     component: CatalogoComponent,
     canActivate: [authGuard, roleGuard],
     data: { roles: ['maestro', 'alumno'] }
+  },
+  {
+    path: 'usuarios',
+    loadComponent: () => import('./components/usuarios/usuarios.component').then(m => m.UsuariosComponent),
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['empleado'] }
   },
   { path: '**', redirectTo: 'login' }//si alguien escribe una URL que no existe, lo redirige al login.
 ];

@@ -1,0 +1,76 @@
+<div class="min-h-screen bg-[#070b14] text-white relative overflow-hidden font-sans flex flex-col">
+
+  <!-- Glow background -->
+  <div class="absolute w-[500px] h-[500px] bg-blue-500/10 blur-[120px] rounded-full -top-32 -left-32"></div>
+  <div class="absolute w-[400px] h-[400px] bg-purple-500/10 blur-[120px] rounded-full -bottom-32 -right-32"></div>
+
+  <!-- Navbar -->
+  <nav class="relative z-10 flex justify-between items-center px-8 py-5 border-b border-white/10 backdrop-blur-xl bg-white/5">
+    <div class="flex items-center gap-3">
+      <button (click)="regresar()" class="text-gray-400 hover:text-white transition text-lg">←</button>
+      <span class="text-xl font-semibold tracking-tight">👥 Usuarios</span>
+    </div>
+  </nav>
+
+  <!-- Contenido -->
+  <div class="relative z-10 flex-1 max-w-7xl mx-auto w-full px-8 py-10">
+
+    <div class="mb-8">
+      <h1 class="text-2xl font-semibold mb-1">Gestión de Usuarios</h1>
+      <p class="text-gray-400 text-sm">Administra los roles de los usuarios del sistema</p>
+    </div>
+
+    <!-- Tabla -->
+    <div class="rounded-2xl border border-white/10 overflow-hidden backdrop-blur-xl bg-white/5">
+      <table class="w-full">
+        <thead>
+          <tr class="border-b border-white/10">
+            <th class="text-left p-4 text-xs text-gray-400 font-medium uppercase tracking-wider">ID</th>
+            <th class="text-left p-4 text-xs text-gray-400 font-medium uppercase tracking-wider">Nombre</th>
+            <th class="text-left p-4 text-xs text-gray-400 font-medium uppercase tracking-wider">Email</th>
+            <th class="text-left p-4 text-xs text-gray-400 font-medium uppercase tracking-wider">Rol actual</th>
+            <th class="text-left p-4 text-xs text-gray-400 font-medium uppercase tracking-wider">Cambiar rol</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let usuario of usuarios"
+            class="border-b border-white/5 hover:bg-white/5 transition-all duration-150">
+            <td class="p-4 text-gray-400 text-sm">{{ usuario.id_usuario }}</td>
+            <td class="p-4 font-medium text-sm">{{ usuario.nombre }}</td>
+            <td class="p-4 text-gray-400 text-sm">{{ usuario.email }}</td>
+            <td class="p-4">
+              <span class="text-xs font-bold px-3 py-1 rounded-full"
+                [style.background]="usuario.nombre_rol === 'empleado' ? 'rgba(59,130,246,0.15)' : usuario.nombre_rol === 'maestro' ? 'rgba(124,58,237,0.15)' : 'rgba(16,185,129,0.15)'"
+                [style.color]="usuario.nombre_rol === 'empleado' ? '#3b82f6' : usuario.nombre_rol === 'maestro' ? '#7c3aed' : '#10b981'"
+                [style.border]="usuario.nombre_rol === 'empleado' ? '1px solid rgba(59,130,246,0.3)' : usuario.nombre_rol === 'maestro' ? '1px solid rgba(124,58,237,0.3)' : '1px solid rgba(16,185,129,0.3)'">
+                {{ usuario.nombre_rol }}
+              </span>
+            </td>
+            <td class="p-4">
+              <select
+                (change)="cambiarRol(usuario, +$any($event.target).value)"
+                class="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-400/50 transition">
+                <option value="" class="bg-[#0d1117]">Seleccionar rol</option>
+                <option *ngFor="let rol of roles" [value]="rol.id_rol" class="bg-[#0d1117]">
+                  {{ rol.nombre }}
+                </option>
+              </select>
+            </td>
+          </tr>
+          <tr *ngIf="usuarios.length === 0">
+            <td colspan="5" class="p-16 text-center text-gray-500">
+              <div class="text-4xl mb-3">👥</div>
+              <p class="text-sm">No hay usuarios registrados</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="relative z-10 text-center py-6 border-t border-white/10">
+    <p class="text-xs text-gray-500">© 2025 Sistema de Almacén</p>
+  </footer>
+
+</div>
