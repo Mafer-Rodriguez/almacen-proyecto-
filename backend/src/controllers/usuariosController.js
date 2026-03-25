@@ -81,6 +81,26 @@ const getUsuarioPorEmail = (req, res) => {
       datos: results[0]
     })
   })
+  const postUsuario = (req, res) => {
+  const { nombre, apellidos, email, uid_firebase, id_rol } = req.body
+
+  const query = `
+    INSERT INTO usuarios (nombre, apellidos, email, uid_firebase, id_rol)
+    VALUES (?, ?, ?, ?, ?)
+  `
+
+  connection.query(query, [nombre, apellidos, email, uid_firebase, id_rol], (err, results) => {
+    if (err) {
+      return res.status(500).json({
+        mensaje: 'Error al crear usuario',
+        error: err
+      })
+    }
+    res.status(201).json({
+      mensaje: 'Usuario creado correctamente',
+      id: results.insertId
+    })
+  })
 }
 
-module.exports = { getUsuarios, patchUsuario, getUsuarioPorEmail }
+module.exports = { getUsuarios, patchUsuario, getUsuarioPorEmail, postUsuario } }
