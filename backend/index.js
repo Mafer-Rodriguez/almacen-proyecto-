@@ -2,19 +2,24 @@ const express = require('express')
 const cors = require('cors')
 const dotenv = require('dotenv')// Cargar variables de entorno
 
-
 dotenv.config()//carga las variables de entorno desde el archivo .env
 
 const app = express()
-const PORT = process.env.PORT || 3000 
+const PORT = process.env.PORT || 3000
 
-app.use(cors({
+// Guardamos las opciones de CORS en una variable para poder reutilizarlas
+// tanto en app.use(cors()) como en app.options(), ya que ambos necesitan
+// las mismas reglas de acceso.
+const corsOptions = {
   origin: 'https://almacen-app-a8e30.web.app',
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'], // OPTIONS es necesario para el preflight
   allowedHeaders: ['Content-Type', 'Authorization']
-}));// Habilitar CORS para permitir solicitudes desde el frontend, en otras palabras permite que Angular pueda comunicarse con este backend sin problemas de seguridad relacionados con el mismo origen (Same-Origin Policy).
-app.use(express.json())// permite que la API entinda datos en formato JSON, lo cual es común en las solicitudes HTTP modernas, especialmente cuando se trabaja con APIs RESTful. Esto facilita la comunicación entre el frontend (Angular) y el backend (Node.js) al permitir que ambos intercambien datos de manera eficiente y estructurada.
+}
 
+app.use(cors(corsOptions))// Habilitar CORS para permitir solicitudes desde el frontend, en otras palabras permite que Angular pueda comunicarse con este backend sin problemas de seguridad relacionados con el mismo origen (Same-Origin Policy).
+app.options('*', cors(corsOptions))// Maneja el preflight: antes de un DELETE/PUT/PATCH, el navegador manda una petición OPTIONS para verificar si tiene permiso. Sin esta línea, el servidor no responde y bloquea la petición real.
+
+app.use(express.json())// permite que la API entienda datos en formato JSON, lo cual es común en las solicitudes HTTP modernas, especialmente cuando se trabaja con APIs RESTful. Esto facilita la comunicación entre el frontend (Angular) y el backend (Node.js) al permitir que ambos intercambien datos de manera eficiente y estructurada.
 
 // Rutas
 const productosRoutes = require('./src/routes/productosRoutes') //importa las rutas relacionadas con productos desde el archivo productosRoutes.js. Estas rutas definirán los endpoints para manejar las operaciones CRUD (Crear, Leer, Actualizar, Eliminar) relacionadas con los productos en la base de datos.
@@ -32,7 +37,6 @@ app.get('/', (req, res) => {
   res.json({ mensaje: 'API Almacén funcionando correctamente ✅' })
 })
 
-app.listen(PORT, () => { //Arranca el servidar en el puerto especificado en las variables de entorno o el puerto 3000 por defecto
+app.listen(PORT, () => { //Arranca el servidor en el puerto especificado en las variables de entorno o el puerto 3000 por defecto
   console.log(`Servidor corriendo en el puerto ${PORT}`)
 })
-
