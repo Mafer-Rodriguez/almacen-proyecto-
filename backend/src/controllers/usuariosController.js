@@ -50,7 +50,6 @@ const patchUsuario = (req, res) => {
   })
 }
 
-// ← método nuevo
 const getUsuarioPorEmail = (req, res) => {
   const { email } = req.params
   const query = `
@@ -81,7 +80,9 @@ const getUsuarioPorEmail = (req, res) => {
       datos: results[0]
     })
   })
-  const postUsuario = (req, res) => {
+}
+
+const postUsuario = (req, res) => {
   const { nombre, apellidos, email, uid_firebase, id_rol } = req.body
 
   const query = `
@@ -103,4 +104,4 @@ const getUsuarioPorEmail = (req, res) => {
   })
 }
 
-module.exports = { getUsuarios, patchUsuario, getUsuarioPorEmail, postUsuario } }
+module.exports = { getUsuarios, patchUsuario, getUsuarioPorEmail, postUsuario }
