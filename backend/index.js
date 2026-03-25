@@ -8,12 +8,11 @@ dotenv.config()//carga las variables de entorno desde el archivo .env
 const app = express()
 const PORT = process.env.PORT || 3000 
 
-app.use(cors(
-  {origen: 'https://almacen-app-a8e30.web.app',
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-  }
-))// Habilitar CORS para permitir solicitudes desde el frontend, en otras palabras permite que Angular pueda comunicarse con este backend sin problemas de seguridad relacionados con el mismo origen (Same-Origin Policy).
+app.use(cors({
+  origin: 'https://almacen-app-a8e30.web.app',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));// Habilitar CORS para permitir solicitudes desde el frontend, en otras palabras permite que Angular pueda comunicarse con este backend sin problemas de seguridad relacionados con el mismo origen (Same-Origin Policy).
 app.use(express.json())// permite que la API entinda datos en formato JSON, lo cual es común en las solicitudes HTTP modernas, especialmente cuando se trabaja con APIs RESTful. Esto facilita la comunicación entre el frontend (Angular) y el backend (Node.js) al permitir que ambos intercambien datos de manera eficiente y estructurada.
 
 
