@@ -15,6 +15,7 @@ const corsOptions = {
 
 // Middleware global
 app.use(cors(corsOptions))
+app.options(/.*/, cors(corsOptions)) // habilita preflight para todas las rutas
 app.use(express.json())
 
 // Rutas
