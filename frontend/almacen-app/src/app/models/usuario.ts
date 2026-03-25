@@ -1,5 +1,5 @@
 export interface Usuario {
-    id_usuario?: number;
+    id_usuarios?: number;
     nombre: string;
     email: string;
     uid_firebase: string;

@@ -37,7 +37,7 @@
         <tbody>
           <tr *ngFor="let solicitud of solicitudes"
             class="border-b border-white/5 hover:bg-white/5 transition-all duration-150">
-            <td class="p-4 text-gray-400 text-sm">{{ solicitud.id_solicitud }}</td>
+            <td class="p-4 text-gray-400 text-sm">{{ solicitud.id_solicitudes }}</td>
             <td class="p-4 text-sm font-medium">{{ solicitud.nombre_usuario }}</td>
             <td class="p-4 text-gray-400 text-sm">{{ solicitud.nombre_producto }}</td>
             <td class="p-4 text-gray-400 text-sm">{{ solicitud.cantidad }}</td>
@@ -53,13 +53,13 @@
             <td class="p-4 flex gap-2">
               <button
                 *ngIf="solicitud.estado === 'pendiente'"
-                (click)="aprobarSolicitud(solicitud.id_solicitud!)"
+                (click)="aprobarSolicitud(solicitud.id_solicitudes!)"
                 class="px-3 py-1 text-xs rounded-lg border border-green-400/30 text-green-400 hover:bg-green-500/20 transition-all">
                 ✅ Aprobar
               </button>
               <button
                 *ngIf="solicitud.estado === 'pendiente'"
-                (click)="rechazarSolicitud(solicitud.id_solicitud!)"
+                (click)="rechazarSolicitud(solicitud.id_solicitudes!)"
                 class="px-3 py-1 text-xs rounded-lg border border-red-400/30 text-red-400 hover:bg-red-500/20 transition-all">
                 ❌ Rechazar
               </button>

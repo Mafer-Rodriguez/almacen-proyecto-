@@ -38,7 +38,7 @@ export class UsuariosComponent implements OnInit {
   }
 
   cambiarRol(usuario: Usuario, id_rol: number) {
-    this.usuariosService.actualizarRol(usuario.id_usuario!, id_rol).subscribe({
+    this.usuariosService.actualizarRol(usuario.id_usuarios!, id_rol).subscribe({
       next: () => {
         alert('Rol actualizado correctamente');
         this.cargarUsuarios();

@@ -1,5 +1,5 @@
 export interface Solicitud {
-    id_solicitud?: number;
+    id_solicitudes?: number;
     id_usuario: number;
     id_producto: number;
     cantidad: number;

@@ -63,7 +63,7 @@ export class MovimientosComponent implements OnInit {
   abrirFormulario() {
     const usuario = this.authService.getUsuarioActual();
     this.nuevoMovimiento = {
-      id_usuario: usuario?.id_usuario ?? 0,
+      id_usuario: usuario?.id_usuarios ?? 0,
       tipo: 'entrada',
       observacion: '',
       detalles: []
