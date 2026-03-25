@@ -1,6 +1,5 @@
 const connection = require('../config/database')
 
-
 const getSolicitudes = (req, res) => {
   const query = `
     SELECT 
@@ -11,7 +10,7 @@ const getSolicitudes = (req, res) => {
       s.observacion,
       u.nombre AS nombre_usuario,
       p.nombre AS nombre_producto
-    FROM solicitudes s//la s es un alias para la tabla solicitudes, lo que hace que la consulta sea más legible y fácil de escribir. En lugar de escribir solicitudes cada vez, se puede usar s para referirse a esa tabla.
+    FROM solicitudes s
     INNER JOIN usuarios u ON s.id_usuario = u.id_usuarios
     INNER JOIN productos p ON s.id_producto = p.id_productos
   `
@@ -57,7 +56,7 @@ const patchSolicitud = (req, res) => {
   const { id } = req.params
   const { estado } = req.body
 
-  const query = `UPDATE solicitudes SET estado = ? WHERE id_solicitud = ?`
+  const query = `UPDATE solicitudes SET estado = ? WHERE id_solicitudes = ?`
 
   connection.query(query, [estado, id], (err, results) => {
     if (err) {
