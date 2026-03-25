@@ -19,4 +19,8 @@ export class UsuariosService {
   actualizarRol(id: number, id_rol: number): Observable<any> {
     return this.http.patch(`${this.apiUrl}/${id}`, { id_rol });
   }
+
+  getUsuarioPorEmail(email: string): Observable<any> {
+  return this.http.get(`${this.apiUrl}/email/${email}`);
+}
 }
