@@ -27,7 +27,7 @@ export class CatalogoComponent implements OnInit {
     private productosService: ProductosService,
     private solicitudesService: SolicitudesService,
     private authService: AuthService,
-    private usuariosService: UsuariosService, // ← nuevo
+    private usuariosService: UsuariosService,
     private router: Router
   ) {}
 
@@ -57,7 +57,7 @@ export class CatalogoComponent implements OnInit {
     this.usuariosService.getUsuarioPorEmail(usuario.email).subscribe({
       next: (res) => {
         const solicitud = {
-          id_usuario: res.datos.id_usuarios,
+          id_usuario: res.datos.id_usuarios, // ← ID de MySQL
           id_producto: this.productoSeleccionado!.id_productos!,
           cantidad: this.cantidadSolicitud,
           estado: 'pendiente' as const,
@@ -70,7 +70,7 @@ export class CatalogoComponent implements OnInit {
             alert('¡Solicitud enviada correctamente!');
             this.mostrarFormulario = false;
           },
-          error: (err) => console.error(err)
+          error: (err) => console.error('Error al crear solicitud', err)
         });
       },
       error: (err) => console.error('Usuario no encontrado en MySQL:', err)
