@@ -8,4 +8,5 @@ export interface Producto {
     area_nombre?: string;
     created_at?: Date;
     updated_at?: Date;
+    estado?: number;
 }

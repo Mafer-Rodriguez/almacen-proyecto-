@@ -28,29 +28,36 @@ export class ProductosComponent implements OnInit {
     this.cargarProductos();
   }
 
+  //  Cargar productos
   cargarProductos() {
     this.productosService.getProductos().subscribe({
-      next: (res) => this.productos = res.datos,
+      next: (res: any) => {
+        this.productos = res.datos;
+      },
       error: (err) => console.error(err)
     });
   }
 
+  //  Producto vacío
   productoVacio(): Producto {
     return { nombre: '', descripcion: '', cantidad: 0, id_area: 1 };
   }
 
+  //  Abrir formulario
   abrirFormulario() {
     this.modoEdicion = false;
     this.productoSeleccionado = this.productoVacio();
     this.mostrarFormulario = true;
   }
 
+  //  Editar producto
   editarProducto(producto: Producto) {
     this.modoEdicion = true;
     this.productoSeleccionado = { ...producto };
     this.mostrarFormulario = true;
   }
 
+  //  Guardar (crear o actualizar)
   guardarProducto() {
     if (this.modoEdicion) {
       this.productosService.actualizarProducto(
@@ -74,15 +81,32 @@ export class ProductosComponent implements OnInit {
     }
   }
 
+  //  ELIMINAR (SOFT DELETE)
   eliminarProducto(id: number) {
-    if (confirm('¿Estás segura de eliminar este producto?')) {
+    if (confirm('¿Estás segura de desactivar este producto?')) {
       this.productosService.eliminarProducto(id).subscribe({
-        next: () => this.cargarProductos(),
-        error: (err) => console.error(err)
+        next: (res: any) => {
+
+          //  Mostrar mensaje del backend
+          alert(res.mensaje);
+
+          //  Actualizar UI sin recargar
+          this.productos = this.productos.map(p =>
+            p.id_productos === id
+              ? { ...p, estado: 0 }
+              : p
+          );
+
+        },
+        error: (err) => {
+          alert('Error al eliminar producto');
+          console.error(err);
+        }
       });
     }
   }
 
+  //  Regresar
   regresar() {
     this.router.navigate(['/dashboard']);
   }

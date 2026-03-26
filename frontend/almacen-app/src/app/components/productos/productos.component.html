@@ -5,13 +5,13 @@
   <div class="absolute w-[400px] h-[400px] bg-purple-500/10 blur-[120px] rounded-full -bottom-32 -right-32"></div>
 
   <!-- Navbar -->
-  <nav class="relative z-10 flex justify-between items-center px-8 py-5 border-b border-white/10 backdrop-blur-xl bg-white/5">
+  <nav
+    class="relative z-10 flex justify-between items-center px-8 py-5 border-b border-white/10 backdrop-blur-xl bg-white/5">
     <div class="flex items-center gap-3">
       <button (click)="regresar()" class="text-gray-400 hover:text-white transition text-lg">←</button>
       <span class="text-xl font-semibold tracking-tight">Productos</span>
     </div>
-    <button
-      (click)="abrirFormulario()"
+    <button (click)="abrirFormulario()"
       class="px-4 py-2 text-sm rounded-lg bg-blue-500/20 border border-blue-400/40 text-blue-300 hover:bg-blue-500/30 transition-all duration-200">
       + Agregar producto
     </button>
@@ -39,10 +39,18 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let producto of productos"
-            class="border-b border-white/5 hover:bg-white/5 transition-all duration-150">
+          <tr *ngFor="let producto of productos" [ngClass]="producto.estado === 0 
+    ? 'border-b border-white/5 opacity-40 grayscale' 
+    : 'border-b border-white/5 hover:bg-white/5'" class="transition-all duration-150">
             <td class="p-4 text-gray-400 text-sm">{{ producto.id_productos }}</td>
-            <td class="p-4 font-medium text-sm">{{ producto.nombre }}</td>
+            <td class="p-4 font-medium text-sm flex items-center gap-2">
+              {{ producto.nombre }}
+
+              <span *ngIf="producto.estado === 0"
+                class="text-[10px] px-2 py-1 rounded-full border border-red-400/30 text-red-400">
+                Inactivo
+              </span>
+            </td>
             <td class="p-4 text-gray-400 text-sm">{{ producto.descripcion }}</td>
             <td class="p-4">
               <span class="text-xs font-bold px-3 py-1 rounded-full"
@@ -58,16 +66,14 @@
               </span>
             </td>
             <td class="p-4 flex gap-2">
-              <button
-                (click)="editarProducto(producto)"
+              <button (click)="editarProducto(producto)"
                 class="px-3 py-1 text-xs rounded-lg border border-purple-400/30 text-purple-300 hover:bg-purple-500/20 transition-all">
                 ✏️ Editar
               </button>
-              <!-- <button
-                (click)="eliminarProducto(producto.id_productos!)"
-                class="px-3 py-1 text-xs rounded-lg border border-red-400/30 text-red-400 hover:bg-red-500/20 transition-all">
+              <button (click)="eliminarProducto(producto.id_productos!)" [disabled]="producto.estado === 0"
+                class="px-3 py-1 text-xs rounded-lg border border-red-400/30 text-red-400 hover:bg-red-500/20 transition-all disabled:opacity-30 disabled:cursor-not-allowed">
                 🗑️ Eliminar
-              </button> -->
+              </button>
             </td>
           </tr>
           <tr *ngIf="productos.length === 0">
@@ -92,46 +98,32 @@
       <div class="flex flex-col gap-4">
         <div>
           <label class="text-xs text-gray-400 mb-1 block uppercase tracking-wider">Nombre</label>
-          <input
-            [(ngModel)]="productoSeleccionado.nombre"
-            type="text"
-            placeholder="Nombre del producto"
+          <input [(ngModel)]="productoSeleccionado.nombre" type="text" placeholder="Nombre del producto"
             class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-blue-400/50 transition">
         </div>
         <div>
           <label class="text-xs text-gray-400 mb-1 block uppercase tracking-wider">Descripción</label>
-          <input
-            [(ngModel)]="productoSeleccionado.descripcion"
-            type="text"
-            placeholder="Descripción del producto"
+          <input [(ngModel)]="productoSeleccionado.descripcion" type="text" placeholder="Descripción del producto"
             class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-blue-400/50 transition">
         </div>
         <div>
           <label class="text-xs text-gray-400 mb-1 block uppercase tracking-wider">Cantidad</label>
-          <input
-            [(ngModel)]="productoSeleccionado.cantidad"
-            type="number"
-            placeholder="Cantidad"
+          <input [(ngModel)]="productoSeleccionado.cantidad" type="number" placeholder="Cantidad"
             class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-blue-400/50 transition">
         </div>
         <div>
           <label class="text-xs text-gray-400 mb-1 block uppercase tracking-wider">ID Área</label>
-          <input
-            [(ngModel)]="productoSeleccionado.id_area"
-            type="number"
-            placeholder="ID del área"
+          <input [(ngModel)]="productoSeleccionado.id_area" type="number" placeholder="ID del área"
             class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-blue-400/50 transition">
         </div>
       </div>
 
       <div class="flex gap-3 mt-6">
-        <button
-          (click)="mostrarFormulario = false"
+        <button (click)="mostrarFormulario = false"
           class="flex-1 py-3 text-sm rounded-lg border border-white/10 text-gray-400 hover:bg-white/5 transition-all">
           Cancelar
         </button>
-        <button
-          (click)="guardarProducto()"
+        <button (click)="guardarProducto()"
           class="flex-1 py-3 text-sm rounded-lg bg-blue-500/20 border border-blue-400/40 text-blue-300 hover:bg-blue-500/30 transition-all font-medium">
           {{ modoEdicion ? 'Actualizar' : 'Guardar' }}
         </button>
