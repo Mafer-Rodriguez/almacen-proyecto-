@@ -15,7 +15,7 @@ const corsOptions = {
 
 // Middleware global
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions)); // preflight para todas las rutas
+app.options(/.*/, cors(corsOptions)); // preflight para todas las rutas
 app.use(express.json());
 
 // Rutas
