@@ -107,32 +107,17 @@ const patchProducto = (req, res) => {
 const deleteProducto = (req, res) => {
   const { id } = req.params;
 
-  console.log("ID recibido:", id);
-
-  const query = `DELETE FROM productos WHERE id_productos = ?`;
+  const query = `UPDATE productos SET estado = 0 WHERE id_productos = ?`;
 
   connection.query(query, [id], (err, results) => {
     if (err) {
-      console.error("💥 ERROR REAL:", err); // <-- ESTE ES EL IMPORTANTE
-      return res.status(500).json({
-        mensaje: 'Error al eliminar producto',
-        error: err.message
-      });
+      console.error(err);
+      return res.status(500).json({ error: err.message });
     }
 
-    console.log("Resultado:", results);
-
-    if (results.affectedRows === 0) {
-      return res.status(404).json({
-        mensaje: 'Producto no encontrado'
-      });
-    }
-
-    res.status(200).json({
-      mensaje: 'Producto eliminado correctamente'
-    });
+    res.json({ mensaje: 'Producto desactivado correctamente' });
   });
-}
+};
 
 
 
