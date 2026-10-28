@@ -61,7 +61,7 @@ El acceso es con la cuenta de Google y cada usuario ve únicamente las pantallas
 - Registro de **entradas y salidas** de almacén.
 - Cada movimiento puede incluir **varios productos** con su cantidad (tabla de detalle).
 
-### 📨 Solicitudes
+###  Solicitudes
 - Alumnos y maestros solicitan productos desde el catálogo indicando cantidad y observaciones.
 - El personal del almacén **aprueba o rechaza** cada solicitud; el estado se muestra con colores (pendiente, aprobada, rechazada).
 
@@ -84,7 +84,7 @@ El acceso es con la cuenta de Google y cada usuario ve únicamente las pantallas
 
 ---
 
-## 🛠️ Tecnologías
+##  Tecnologías
 
 **Frontend**
 - Angular 18 (componentes standalone)
@@ -264,7 +264,7 @@ Abre `http://localhost:4200`.
 
 ---
 
-## 🔌 API REST
+##  API REST
 
 URL base: `/api`
 
@@ -314,7 +314,7 @@ Ejemplo de cuerpo para `POST /movimientos`:
 
 ---
 
-## ☁️ Despliegue
+##  Despliegue
 
 - **Backend y base de datos:** [Railway](https://railway.app/). Las variables del archivo `.env` se configuran en el panel del servicio.
 - **Frontend:** [Firebase Hosting](https://firebase.google.com/docs/hosting).
